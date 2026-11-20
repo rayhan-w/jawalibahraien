@@ -22,7 +22,7 @@ async function getInitialCatalogData() {
     `);
 
     const [categories] = await pool.query(`
-      SELECT id, name, slug, icon FROM categories ORDER BY sort_order ASC, id ASC
+      SELECT id, name, name_ar, slug, icon FROM categories ORDER BY sort_order ASC, id ASC
     `);
 
     let subCategories = [];

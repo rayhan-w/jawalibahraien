@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 import ProductCard from '@/components/ProductCard';
 
 export default function ProductsClient({
@@ -10,6 +11,8 @@ export default function ProductsClient({
   initialSubCategories = [],
 }) {
   const searchParams = useSearchParams();
+  const { lang = 'en' } = useCart();
+  const getCatLabel = (c) => (lang === 'ar' ? (c?.name_ar || c?.name) : (c?.name || c?.name_ar));
   const categoryParam = searchParams.get('category');
   const subcategoryParam = searchParams.get('subcategory') || searchParams.get('sub_category');
   const searchParam = searchParams.get('search');
@@ -253,14 +256,25 @@ export default function ProductsClient({
     setCurrentPage(1);
   };
 
+  const matchedCat = categories.find(
+    (c) =>
+      c.slug?.toLowerCase() === selectedCategory?.toLowerCase() ||
+      c.name?.toLowerCase() === selectedCategory?.toLowerCase()
+  );
+  const matchedSub = subcategories.find(
+    (s) =>
+      s.slug?.toLowerCase() === selectedSubCategory?.toLowerCase() ||
+      s.name?.toLowerCase() === selectedSubCategory?.toLowerCase()
+  );
+
   const currentCategoryTitle =
     selectedCategory !== 'all'
       ? selectedSubCategory !== 'all'
-        ? `${categories.find((c) => c.slug.toLowerCase() === selectedCategory.toLowerCase() || c.name.toLowerCase() === selectedCategory.toLowerCase())?.name || 'Category'} > ${subcategories.find((s) => s.slug.toLowerCase() === selectedSubCategory.toLowerCase() || s.name.toLowerCase() === selectedSubCategory.toLowerCase())?.name || selectedSubCategory}`
-        : categories.find((c) => c.slug.toLowerCase() === selectedCategory.toLowerCase() || c.name.toLowerCase() === selectedCategory.toLowerCase())?.name || 'Category'
+        ? `${getCatLabel(matchedCat) || (lang === 'ar' ? 'التصنيف' : 'Category')} > ${matchedSub?.name || selectedSubCategory}`
+        : getCatLabel(matchedCat) || (lang === 'ar' ? 'التصنيف' : 'Category')
       : searchTerm
-      ? `Search: "${searchTerm}"`
-      : 'All Products';
+      ? `${lang === 'ar' ? 'بحث' : 'Search'}: "${searchTerm}"`
+      : lang === 'ar' ? 'جميع المنتجات' : 'All Products';
 
   const isAnyFilterActive =
     selectedCategory !== 'all' ||
@@ -368,7 +382,7 @@ export default function ProductsClient({
                 />
               )}
             </span>
-            <span style={{ flex: 1 }}>All Categories ({getCategoryCount('all')})</span>
+            <span style={{ flex: 1 }}>{lang === 'ar' ? 'جميع التصنيفات' : 'All Categories'} ({getCategoryCount('all')})</span>
           </label>
           {categories.map((c) => (
             <label
@@ -423,7 +437,7 @@ export default function ProductsClient({
                   />
                 )}
               </span>
-              <span style={{ flex: 1 }}>{c.name}</span>
+              <span style={{ flex: 1 }}>{getCatLabel(c)}</span>
             </label>
           ))}
         </div>
@@ -708,7 +722,7 @@ export default function ProductsClient({
               </span>
               {selectedCategory !== 'all' && (
                 <span className="filter-chip">
-                  {categories.find((c) => c.slug?.toLowerCase() === selectedCategory.toLowerCase() || String(c.id) === String(selectedCategory))?.name || selectedCategory}
+                  {getCatLabel(categories.find((c) => c.slug?.toLowerCase() === selectedCategory.toLowerCase() || String(c.id) === String(selectedCategory))) || selectedCategory}
                   <button type="button" onClick={() => handleSelectCategory('all')}>×</button>
                 </span>
               )}

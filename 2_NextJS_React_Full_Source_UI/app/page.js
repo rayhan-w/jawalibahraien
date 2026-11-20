@@ -89,7 +89,7 @@ async function getTopSellingProducts() {
 
 async function getCategories() {
   try {
-    const [categories] = await pool.query('SELECT id, name, slug, icon, sort_order FROM categories ORDER BY sort_order ASC, id ASC');
+    const [categories] = await pool.query('SELECT id, name, name_ar, slug, icon, sort_order FROM categories ORDER BY sort_order ASC, id ASC');
     return categories || [];
   } catch (e) {
     console.error('Error fetching categories:', e);
