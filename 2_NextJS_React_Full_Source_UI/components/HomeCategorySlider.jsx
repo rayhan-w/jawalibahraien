@@ -7,14 +7,16 @@ export default function HomeCategorySlider({ categories = [] }) {
   const trackRef = useRef(null);
 
   const defaultCats = [
-    { id: 1, name: 'Smart Phone', slug: 'smartphones', icon: 'fa-mobile-screen-button' },
-    { id: 2, name: 'Cover', slug: 'phone-cases', icon: 'fa-shield-halved' },
-    { id: 3, name: 'Sunglasses', slug: 'sunglasses', icon: 'fa-glasses' },
-    { id: 4, name: 'Head Phone', slug: 'audio-earphones', icon: 'fa-headphones' },
-    { id: 5, name: 'Smartwatches', slug: 'smartwatches', icon: 'fa-stopwatch' },
-    { id: 6, name: 'Tech Gadgets', slug: 'tech-gadgets', icon: 'fa-plug' },
-    { id: 7, name: 'Power Bank', slug: 'power-bank', icon: 'fa-battery-full' },
-    { id: 8, name: 'Light', slug: 'light', icon: 'fa-lightbulb' },
+    { id: 1, name: 'Smartphones', slug: 'phone', icon: 'fa-mobile-screen-button' },
+    { id: 2, name: 'Wireless Earbuds', slug: 'earbuds-audio', icon: 'fa-headphones' },
+    { id: 3, name: 'Smartwatches', slug: 'smartwatches-bands', icon: 'fa-clock' },
+    { id: 4, name: 'Power Banks', slug: 'power-banks-magsafe', icon: 'fa-battery-full' },
+    { id: 5, name: 'Fast Chargers', slug: 'chargers-cables', icon: 'fa-plug' },
+    { id: 6, name: 'Sunglasses', slug: 'sunglasses-smart-glasses', icon: 'fa-glasses' },
+    { id: 7, name: 'Cases & Covers', slug: 'cover', icon: 'fa-shield-halved' },
+    { id: 8, name: 'Car Accessories', slug: 'car-accessories', icon: 'fa-car' },
+    { id: 9, name: 'Camera & Drones', slug: 'camera-photography', icon: 'fa-camera' },
+    { id: 10, name: 'Gaming Gear', slug: 'computer-gaming', icon: 'fa-gamepad' },
   ];
 
   const displayCategories =
